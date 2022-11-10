@@ -46,7 +46,7 @@ $result = mysqli_query($mysqli, "SELECT * FROM products ORDER BY id DESC"); // u
 							echo "<td>".$res['brand']."</td>";
 							echo "<td>".$stockText."</td>";
 							echo "<td><a href=\"edit.php?id=$res[id]\">
-							<button type=\"button\" class=\"btn btn-success\">Edit</button></a> | <a href=\"delete.php?id=$res[id]\" onClick=\"return confirm(\'Are you sure you want to delete?\')\">
+							<button type=\"button\" class=\"btn btn-success\">Edit</button></a> | <a href=\"delete.php?id=$res[id]\" onClick=\"confirmDelete\">
 							<button type=\"button\" class=\"btn btn-danger\">Delete</button></a></td>";
 						}
 					}
@@ -59,7 +59,15 @@ $result = mysqli_query($mysqli, "SELECT * FROM products ORDER BY id DESC"); // u
 				</a>
 			</div>
 		</div>
+		<script>
+			function confirmDelete() {
+				var x = confirm("Are you sure you want to delete?");
+				if (x)
+					return true;
+				else
+					return false;
+			}
+		</script>
 	</section>
-
 </body>
 </html>

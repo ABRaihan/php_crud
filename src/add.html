@@ -32,7 +32,7 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="add.html"
+                <a class="nav-link active" aria-current="page" href="#"
                   >Add Item</a
                 >
               </li>
@@ -65,14 +65,12 @@
           <!-- product category and brand -->
           <div class="row g-3 mb-3">
             <div class="col">
-              <select class="form-select" name="category">
+              <select class="form-select" name="category" id="category">
                 <option value="">Category</option>
-                <option value="smartphone">Smartphone</option>
-                <option value="headphone">Headphone</option>
               </select>
             </div>
             <div class="col">
-              <select class="form-select" name="brand">
+              <select class="form-select" name="brand" id="brand">
                 <option value="">Brand</option>
                 <option value="apple">Apple</option>
                 <option value="samsung">Samsung</option>
@@ -126,5 +124,6 @@
       </div>
     </section>
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="js/add.js" type="module"></script>
   </body>
 </html>

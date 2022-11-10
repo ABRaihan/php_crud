@@ -31,16 +31,26 @@ if(isset($_POST['update'])){
 	} else {
 		//updating the table
 		$result = mysqli_query($mysqli, "UPDATE products SET name='$name',price='$price', category='$category', brand='$brand', stockStatus='$stockStatus' WHERE id=$id");
-		echo "<script>alert('Data Update successfully.')</script>";
+		// echo "<script>alert('Data Update successfully.')</script>";
 		//redirecting to the display page. In our case, it is index.php
-		header("Refresh: 1; URL=http://localhost:8080/index.php");
+		header("Location: index.php");
 	}
 }
 ?>
 <?php
 //getting id from url
 $id = $_GET['id'];
-//selecting data associated with this particular id
+if(file_exists('category.json')){
+	$filename = 'category.json';
+	$data = file_get_contents($filename); //data read from json file
+	$categoryValue = json_decode($data);  //decode a data
+}
+if(file_exists('brand.json')){
+	$filename = 'brand.json';
+	$data = file_get_contents($filename); //data read from json file
+	$brandValue = json_decode($data);  //decode a data
+}
+
 $result = mysqli_query($mysqli, "SELECT * FROM products WHERE id=$id");
 
 while($res = mysqli_fetch_array($result)){
@@ -85,7 +95,7 @@ while($res = mysqli_fetch_array($result)){
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.php"
+                <a class="nav-link active" aria-current="page" href="#"
                   >Edit</a
                 >
               </li>
@@ -100,7 +110,7 @@ while($res = mysqli_fetch_array($result)){
           <div class="row g-3 mb-3">
             <div class="col">
               <input
-			  	value="<?php echo $name;?>"
+			  	      value="<?php echo $name;?>"
                 name="name"
                 type="text"
                 class="form-control"
@@ -109,7 +119,7 @@ while($res = mysqli_fetch_array($result)){
             </div>
             <div class="col">
               <input
-			  	value="<?php echo $price;?>"
+			  	      value="<?php echo $price;?>"
                 name="price"
                 type="number"
                 class="form-control"
@@ -120,17 +130,34 @@ while($res = mysqli_fetch_array($result)){
           <!-- product category and brand -->
           <div class="row g-3 mb-3">
             <div class="col">
-              <select class="form-select" name="category">
-                <option value="">Category</option>
-                <option value="smartphone" <?=$category == 'smartphone' ? 'selected' : '';?>>Smartphone</option>
-				<option value="headphone" <?=$category == 'headphone' ? 'selected' : '';?>>Headphone</option>
+              <select class="form-select" name="category" id="category">
+              <option value="">Category</option>
+              <?php
+              foreach($categoryValue as $value){
+                $selected = "";
+                global $selectedValue;
+                if($category == $value){
+                  $selected = "selected";
+                  $selectedValue = $value;
+                }
+                echo "<option value=\"$value\" $selected>$value</option>";
+              }
+               ?>
               </select>
             </div>
             <div class="col">
-              <select class="form-select" name="brand">
+              <select class="form-select" name="brand" id="brand">
                 <option value="">Brand</option>
-				<option value="apple" <?=$brand == 'apple' ? 'selected' : '';?>>Apple</option>
-				<option value="samsung" <?=$brand == 'samsung' ? 'selected' : '';?>>Samsung</option>
+				        <?php
+                  $brands = $brandValue->$selectedValue;
+                  foreach ($brands as $value) {
+                    $selected = "";
+                    if($brand == $value){
+                      $selected = "selected";
+                    }
+                    echo "<option value=\"$value\" $selected>$value</option>";
+                  }
+                ?>
               </select>
             </div>
           </div>
@@ -143,7 +170,7 @@ while($res = mysqli_fetch_array($result)){
                 name="stockStatus"
                 id="flexRadioDefault1"
                 value="1"
-				<?=$stockStatus == '1' ? 'checked' : '';?>
+				        <?=$stockStatus == '1' ? 'checked' : '';?>
               />
               <label class="form-check-label" for="flexRadioDefault1">
                 Stock In
@@ -156,7 +183,7 @@ while($res = mysqli_fetch_array($result)){
                 name="stockStatus"
                 id="flexRadioDefault2"
                 value="0"
-				<?=$stockStatus !== '1' ? 'checked' : '';?>
+				        <?=$stockStatus !== '1' ? 'checked' : '';?>
               />
               <label class="form-check-label" for="flexRadioDefault2">
                 Stock Out
@@ -176,12 +203,13 @@ while($res = mysqli_fetch_array($result)){
             >
           </div>
           <div class="btn_wrapper">
-		  	<input type="hidden" name="id" value=<?php echo $_GET['id'];?>>
+		  	    <input type="hidden" name="id" value=<?php echo $_GET['id'];?>>
             <input type="submit" class="btn btn-primary" name="update" value="Update" />
           </div>
         </form>
       </div>
     </section>
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="js/edit.js" type="module"></script>
   </body>
 </html>

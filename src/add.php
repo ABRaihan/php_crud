@@ -47,7 +47,7 @@ if(isset($_POST['submit'])) {
 
 		//display success message
 		echo "<script>alert('Data added successfully.')</script>";
-		header('Refresh: 2; URL=http://localhost:8080/index.php');
+		header('Refresh: 1; URL=http://localhost:8080/index.php');
 	}
 }
 ?>

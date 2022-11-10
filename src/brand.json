@@ -1,0 +1,7 @@
+{
+  "Smartphone": ["Apple", "Samsung", "Xiaomi", "Oppo", "Vivo"],
+  "Laptop": ["Apple", "Asus", "Acer", "Lenovo", "HP"],
+  "Tablet": ["Apple", "Samsung", "Xiaomi", "Oppo", "Vivo"],
+  "Smartwatch": ["Apple", "Samsung", "Xiaomi", "Oppo", "Vivo"],
+  "Headphone": ["Apple", "Samsung", "Xiaomi", "JBL", "Edifier"]
+}
