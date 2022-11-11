@@ -3,12 +3,12 @@
 include_once("config.php");
 
 if(isset($_POST['update'])){
-	$id = mysqli_real_escape_string($mysqli, $_POST['id']);
-	$name = mysqli_real_escape_string($mysqli, $_POST['name']);
-	$price = mysqli_real_escape_string($mysqli, $_POST['price']);
-	$category = mysqli_real_escape_string($mysqli, $_POST['category']);
-	$brand = mysqli_real_escape_string($mysqli, $_POST['brand']);
-	$stockStatus = mysqli_real_escape_string($mysqli, $_POST['stockStatus']);
+	$id = $_POST['id'];
+	$name = $_POST['name'];
+	$price = $_POST['price'];
+	$category = $_POST['category'];
+	$brand = $_POST['brand'];
+	$stockStatus = $_POST['stockStatus'];
 
 	// checking empty fields
 	if(empty($name) || empty($price) || empty($category) || empty($brand)) {
@@ -30,7 +30,7 @@ if(isset($_POST['update'])){
 		header("Refresh: 2; URL=http://localhost:8080/edit.php?id=$id");
 	} else {
 		//updating the table
-		$result = mysqli_query($mysqli, "UPDATE products SET name='$name',price='$price', category='$category', brand='$brand', stockStatus='$stockStatus' WHERE id=$id");
+		$result = mysqli_query($dbCon, "UPDATE products SET name='$name',price='$price', category='$category', brand='$brand', stockStatus='$stockStatus' WHERE id=$id");
 		// echo "<script>alert('Data Update successfully.')</script>";
 		//redirecting to the display page. In our case, it is index.php
 		header("Location: index.php");
@@ -40,18 +40,8 @@ if(isset($_POST['update'])){
 <?php
 //getting id from url
 $id = $_GET['id'];
-if(file_exists('category.json')){
-	$filename = 'category.json';
-	$data = file_get_contents($filename); //data read from json file
-	$categoryValue = json_decode($data);  //decode a data
-}
-if(file_exists('brand.json')){
-	$filename = 'brand.json';
-	$data = file_get_contents($filename); //data read from json file
-	$brandValue = json_decode($data);  //decode a data
-}
-
-$result = mysqli_query($mysqli, "SELECT * FROM products WHERE id=$id");
+$categoryData = mysqli_query($dbCon, "SELECT * FROM category");
+$result = mysqli_query($dbCon, "SELECT * FROM products WHERE id=$id");
 
 while($res = mysqli_fetch_array($result)){
 	$name = $res['name'];
@@ -133,12 +123,13 @@ while($res = mysqli_fetch_array($result)){
               <select class="form-select" name="category" id="category">
               <option value="">Category</option>
               <?php
-              foreach($categoryValue as $value){
+              while($res = mysqli_fetch_array($categoryData)){
+                $value = $res["name"];
                 $selected = "";
-                global $selectedValue;
+                global $categoryID;
                 if($category == $value){
                   $selected = "selected";
-                  $selectedValue = $value;
+                  $categoryID = $res["id"];
                 }
                 echo "<option value=\"$value\" $selected>$value</option>";
               }
@@ -148,9 +139,11 @@ while($res = mysqli_fetch_array($result)){
             <div class="col">
               <select class="form-select" name="brand" id="brand">
                 <option value="">Brand</option>
-				        <?php
-                  $brands = $brandValue->$selectedValue;
-                  foreach ($brands as $value) {
+                <?php
+                $brandData = mysqli_query($dbCon, "SELECT * FROM brands WHERE id=$categoryID");
+                // $brands = $brandValue->$selectedValue;
+                while($res = mysqli_fetch_array($brandData)){
+                    $value = $res["name"];
                     $selected = "";
                     if($brand == $value){
                       $selected = "selected";
@@ -191,17 +184,6 @@ while($res = mysqli_fetch_array($result)){
             </div>
           </div>
           <!-- product image -->
-          <div class="input-group mb-3">
-            <input
-              type="file"
-              class="form-control"
-              id="inputGroupFile02"
-              name="img"
-            />
-            <label class="input-group-text" for="inputGroupFile02"
-              >Product Image</label
-            >
-          </div>
           <div class="btn_wrapper">
 		  	    <input type="hidden" name="id" value=<?php echo $_GET['id'];?>>
             <input type="submit" class="btn btn-primary" name="update" value="Update" />
@@ -210,6 +192,6 @@ while($res = mysqli_fetch_array($result)){
       </div>
     </section>
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="js/edit.js" type="module"></script>
+    <script src="js/main.js" type="module"></script>
   </body>
 </html>

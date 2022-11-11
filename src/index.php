@@ -5,7 +5,7 @@ include_once("config.php");
 //fetching data in descending order (lastest entry first)
 //$result = mysql_query("SELECT * FROM users ORDER BY id DESC"); // mysql_query is deprecated
 
-$result = mysqli_query($mysqli, "SELECT * FROM products ORDER BY id DESC"); // using mysqli_query instead
+$result = mysqli_query($dbCon, "SELECT * FROM products ORDER BY id DESC"); // using mysqli_query instead
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,6 +28,7 @@ $result = mysqli_query($mysqli, "SELECT * FROM products ORDER BY id DESC"); // u
 					<th>Category</th>
 					<th>Brand</th>
 					<th>Stock</th>
+					<th>Thumbnails</th>
 					<th>Actions</th>
 				</tr>
 				<?php
@@ -45,6 +46,7 @@ $result = mysqli_query($mysqli, "SELECT * FROM products ORDER BY id DESC"); // u
 							echo "<td>".$res['category']."</td>";
 							echo "<td>".$res['brand']."</td>";
 							echo "<td>".$stockText."</td>";
+							echo "<td><img src=\"images/$res[img_src]\"/></td>";
 							echo "<td><a href=\"edit.php?id=$res[id]\">
 							<button type=\"button\" class=\"btn btn-success\">Edit</button></a> | <a href=\"delete.php?id=$res[id]\" onClick=\"confirmDelete\">
 							<button type=\"button\" class=\"btn btn-danger\">Delete</button></a></td>";
@@ -54,7 +56,7 @@ $result = mysqli_query($mysqli, "SELECT * FROM products ORDER BY id DESC"); // u
 				?>
 			</table>
 			<div class="btn_wrapper">
-				<a href="add.html">
+				<a href="add.php">
 					<button type="button" class="btn btn-primary">Add New Product</button>
 				</a>
 			</div>
