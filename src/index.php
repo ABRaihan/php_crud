@@ -20,8 +20,8 @@ $result = mysqli_query($dbCon, "SELECT * FROM products ORDER BY id DESC"); // us
 <body>
 	<section>
 		<div class="container">
-			<p class="display-6 text-center mt-4">Product List</p>
-			<table class="table table-striped table-hover mt-5">
+			<h2 class="text-center mt-4">List Table</h2>
+			<table class="table mt-5">
 				<tr>
 					<th>Name</th>
 					<th>Price</th>
@@ -47,9 +47,8 @@ $result = mysqli_query($dbCon, "SELECT * FROM products ORDER BY id DESC"); // us
 							echo "<td>".$res['brand']."</td>";
 							echo "<td>".$stockText."</td>";
 							echo "<td><img src=\"images/$res[img_src]\"/></td>";
-							echo "<td><a href=\"edit.php?id=$res[id]\">
-							<button type=\"button\" class=\"btn btn-success\">Edit</button></a> | <a href=\"delete.php?id=$res[id]\" onClick=\"confirmDelete\">
-							<button type=\"button\" class=\"btn btn-danger\">Delete</button></a></td>";
+							echo "<td><a href=\"edit.php?id=$res[id]\">Edit</a> | <a href=\"delete.php?id=$res[id]\">
+							Delete</a></td>";
 						}
 					}
 
@@ -57,19 +56,10 @@ $result = mysqli_query($dbCon, "SELECT * FROM products ORDER BY id DESC"); // us
 			</table>
 			<div class="btn_wrapper">
 				<a href="add.php">
-					<button type="button" class="btn btn-primary">Add New Product</button>
+					Add New Product
 				</a>
 			</div>
 		</div>
-		<script>
-			function confirmDelete() {
-				var x = confirm("Are you sure you want to delete?");
-				if (x)
-					return true;
-				else
-					return false;
-			}
-		</script>
 	</section>
 </body>
 </html>

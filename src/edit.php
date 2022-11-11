@@ -63,64 +63,36 @@ while($res = mysqli_fetch_array($result)){
   </head>
   <body>
     <section>
-      <nav class="navbar navbar-expand-lg bg-light mb-3">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">AB</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="index.php"
-                  >Home</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"
-                  >Edit</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
       <div class="container">
-        <p class="display-6 text-center mb-5">Update Product</p>
+        <h2 class="text-center mb-5 mt-4">Update Data</h2>
         <form action="edit.php" method="POST">
           <!-- product name and price -->
           <div class="row g-3 mb-3">
             <div class="col">
+              <label for="name" class="form-label">Product Name</label>
               <input
 			  	      value="<?php echo $name;?>"
                 name="name"
                 type="text"
-                class="form-control"
-                placeholder="Product Name"
+                class="form-control mb-3"
+                id="name"
               />
-            </div>
-            <div class="col">
+              <label for="price" class="form-label">Product Price</label>
               <input
 			  	      value="<?php echo $price;?>"
                 name="price"
                 type="number"
                 class="form-control"
-                placeholder="Product Price"
+                id="price"
               />
             </div>
+            <div class="col"></div>
           </div>
           <!-- product category and brand -->
           <div class="row g-3 mb-3">
             <div class="col">
-              <select class="form-select" name="category" id="category">
+              <label for="category" class="form-label">Category Name</label>
+              <select class="form-select mb-3" name="category" id="category">
               <option value="">Category</option>
               <?php
               while($res = mysqli_fetch_array($categoryData)){
@@ -135,8 +107,7 @@ while($res = mysqli_fetch_array($result)){
               }
                ?>
               </select>
-            </div>
-            <div class="col">
+              <label for="brand" class="form-label">Brand Name</label>
               <select class="form-select" name="brand" id="brand">
                 <option value="">Brand</option>
                 <?php
@@ -153,6 +124,7 @@ while($res = mysqli_fetch_array($result)){
                 ?>
               </select>
             </div>
+            <div class="col"></div>
           </div>
           <!-- product stock details -->
           <div class="input-group mb-3">
@@ -186,7 +158,8 @@ while($res = mysqli_fetch_array($result)){
           <!-- product image -->
           <div class="btn_wrapper">
 		  	    <input type="hidden" name="id" value=<?php echo $_GET['id'];?>>
-            <input type="submit" class="btn btn-primary" name="update" value="Update" />
+            <input type="submit" class="" name="update" value="Update" />
+            <a href="index.php" class="ms-3">Go To Home</a>
           </div>
         </form>
       </div>
